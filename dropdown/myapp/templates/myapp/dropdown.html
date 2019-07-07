@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript">
+
+	</script>
+</head>
+<body>
+<form method="post" id="CountryForm" data-fetchState-url="{% url 'ajax_load_fetchState' %}">
+    {% csrf_token %}
+    <select id="country_name" name="country">
+        <option>Select</option>
+        {% for i in obj %}
+            <option value="{{i.id}}">{{i.country}}</option>
+        {% endfor %}
+    </select>
+
+    <select id="st">
+
+    </select>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $("#country_name").change(function() {
+            var url = $("#CountryForm").attr("data-fetchState-url");
+            var countername = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'country': countername
+                },
+                success: function (data) {
+                    $("#st").html(data);
+                }
+            });
+        });
+    </script>
+</form>
+
+</body>
+</html>
